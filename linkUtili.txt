@@ -5,3 +5,4 @@
 ########################################################
 
 Jdbc Oracle lesson -> https://docs.oracle.com/javase/tutorial/jdbc/basics/
+Design Patterns, posiionamento e utilizzi -> http://www.slideshare.net/tangram77/design-patterns-lezione-2-22052013
