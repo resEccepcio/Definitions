@@ -6,7 +6,7 @@ POLIMORFISMO:	Il termine polimorfismo si riferisce in generale alla possibilità
 				- inclusion polymorphism:	questa forma di polimorfismo è strettamente legata al concetto di ereditarietà, e consiste nella possibilità che una sottoclasse A
 											ridefinisca un metodo della superclasse B, ed in questo modo, nel momento in cui questo metodo verrà invocato, si comporterà in modo
 											diverso a seconda dell'implementazione richiamata (binding dinamico).
-				- parametric polymorphism (o generic programming):	è legato al concetto di generics, col quale si possono definire funzioni generiche che possono operare con
+				- parametric polymorphism :	è legato al concetto di generics, col quale si possono definire funzioni generiche che possono operare con
 																	tipi di dati diverso, a seconda di cosa è stabilito nelle specifiche di generics
 																	
 
