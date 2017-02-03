@@ -1,0 +1,7 @@
+########################################################
+#                                                      #
+# NON INSERIRE LINK CHE VIOLANO LE LEGGI DEL COPYRIGTH #
+#                                                      #
+########################################################
+
+Jdbc Oracle lesson -> https://docs.oracle.com/javase/tutorial/jdbc/basics/
