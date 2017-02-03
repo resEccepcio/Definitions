@@ -7,3 +7,4 @@
 Jdbc Oracle lesson -> https://docs.oracle.com/javase/tutorial/jdbc/basics/
 Design Patterns, posiionamento e utilizzi -> http://www.slideshare.net/tangram77/design-patterns-lezione-2-22052013
 Pattern  architetturali -> http://www.informatica.aci.it/visualizza_file.php?id_documento=1217&tipo=documentazione
+Fiiltr servlet -> http://www.the-skulls.com/sego/tutorials/servlet_filtri.pdf
