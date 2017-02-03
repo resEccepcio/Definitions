@@ -1,0 +1,48 @@
+POLIMORFISMO:	Il termine polimorfismo si riferisce in generale alla possibilità data ad una determinata espressione di assumere valori diversi
+				in relazione ai tipi di dato a cui viene applicata.
+				Si possono distinguere almeno 3 tipi di polimorfismo:
+				- ah hoc polymorphism:	detta più comunemente “method overloading” consiste concretamente nella possibilità di “ridefinire” un medesimo metodo 
+										per set di parametri diversi.
+				- inclusion polymorphism:	questa forma di polimorfismo è strettamente legata al concetto di ereditarietà, e consiste nella possibilità che una sottoclasse A
+											ridefinisca un metodo della superclasse B, ed in questo modo, nel momento in cui questo metodo verrà invocato, si comporterà in modo
+											diverso a seconda dell'implementazione richiamata (binding dinamico).
+				- parametric polymorphism (o generic programming):	è legato al concetto di generics, col quale si possono definire funzioni generiche che possono operare con
+																	tipi di dati diverso, a seconda di cosa è stabilito nelle specifiche di generics
+																	
+
+OVERLOADING:	metodologia utilizzata per ridefinire un metodo mantenendo lo stesso nome del metodo e lo stesso tipo di valore di ritorno, ma cambiando gli argomenti in input
+				e la sua implementazione;
+				NB: in questo modo cambia la firma del metodo.
+				
+OVERRIDING:		metodologia utilizzata per ridefinire il corpo di un metodo, lasciando inalterata la firma del metodo (valore di ritorno, nome del metodo, argomenti in input).
+				Un esempio tipico è quello della sottoclasse che ridefinisce un metodo della superclasse.
+				
+INTERFACCIA:	struttura che contiene delle costanti e dei metodi, tutti pubblici, i quali devono essere implementati dalle classi che implementano l'interfaccia.
+				In genere, un'interfaccia definisce dei comportamenti (accelera(), frena()).
+				
+CLASSE ASTRATTA:	classe in java che contiene variabili e metodi, e può contenere dei metodi astratti. 
+					Generalmente, abbiamo una classe astratta quando facciamo astrazione; un esempio:
+					io ho le seguenti classi: Quadrupede, Cane, PastoreMaremmano. Ho fatto quindi astrazione, definendo delle caratteristiche comuni (tutti i quadrupedi hanno 4 zampe,
+					e quindi una caratteristica di Quadrupede, tutti i cani abbaiano, e quindi una caratteristica comune di Cane). Tuttavia, Quadrupede e Cane sono classi astratte,
+					in quanto non riusciamo ad immaginare un Quadrupede o un Cane generico, mentre un PastoreMaremmano sì, quindi sarà istanziabile, ed avrà anche caratteristiche aggiuntive, oltre 
+					a quelle comuni precedentemente stabilite (le eredita grazie all'Ereditarietà, con extends).
+					NB: Una classe astratta non è istanziabile.
+					SBAGLIATO!!! ----> ClasseAstratta c=new ClasseAstratta()
+					
+DIFFERENZA FRA INTERFACCIA E CLASSE ASTRATTA:	un'interfaccia definisce dei metodi per un determinato comportamento (accelera(), frena()), ed avrà diverse classi che implementano
+												questa interfaccia (MotoreFiat, MotoreFerrari): entrambi implementano quei metodi, ma ovviamente la loro implementazione cambierà.
+												Tuttavia, il metodo a nostra disposizione (accelera(), frena()) sono sempre quelli esposti nell'interfaccia, quindi sapremo usare
+												sia l'una che l'altra, cambia solo la loro implementazione.
+												Una classe astratta invece può anche implementare dei metodi (la classe astratta Cane può benissimo implementare il metodo abbaia()).
+												Tenere ben presente: classi astratte le incontriamo nella modellazione della realtà, quando facciamo astrazione; le interfacce le troviamo
+												quando definiamo un comportamento che deve essere implementato.
+												
+TIPI PRIMITIVI:	set primi di dati presenti in java (int, long, boolean, ecc.)
+				NB: i tipi primitivi non dispongono di metodi
+				
+CLASSI WRAPPER:	classi speciali, una per ogni tipo di dato primitivo. Sono classi a tutti gli effetti e dispongono di numerosi metodi di utilità.
+				Il combilatore java è in grado di mettere un corrispondenza i tipi primitivi con le relative classi wrapper, con un meccanismo chiamato AUTOBOXING.
+				
+ANNOTATION:		costrutto che conferisce a determinate classi, metodi o variabili, delle proprietà e delle caratteristiche (esempio: @Entity per dire che uan determinata classe
+				corrisponde ad una determinata entità nel DB. Questo accade con HIBERNATE.)
+
