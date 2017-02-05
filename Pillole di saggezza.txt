@@ -45,4 +45,27 @@ CLASSI WRAPPER:	classi speciali, una per ogni tipo di dato primitivo. Sono class
 				
 ANNOTATION:		costrutto che conferisce a determinate classi, metodi o variabili, delle proprietà e delle caratteristiche (esempio: @Entity per dire che uan determinata classe
 				corrisponde ad una determinata entità nel DB. Questo accade con HIBERNATE.)
+				
 
+POJO:	Un pojo è in generale un oggetto contenente soltanto delle proprietà ed i corrispondenti metodi get e set per accedervi 	
+	rispettando l'incapsulamento che è uno dei tre capisaldi della programmazione OOP. Inoltre è importante che un pojo non estenda
+	delle classi prespecificate, non implementi delle interfacce prespecificate e che non contenga delle annotazioni prespecificate.
+	
+JAVABEAN:	Sono utilizzate per incapsulare più oggetti in un oggetto singolo (il bean), cosicché tali oggetti possano essere
+		passati come un singolo oggetto bean invece che come multipli oggetti individuali. Al fine di funzionare come una classe
+		JavaBean, una classe di un oggetto deve obbedire a certe convenzioni in merito ai nomi, alla costruzione e al
+		comportamento dei metodi. Queste convenzioni rendono possibile avere tool che possono usare, riusare, sostituire e
+		connettere JavaBean. Le convenzioni richieste sono:
+			- La classe deve avere un costruttore senza argomenti;
+			- Le sue proprietà devono essere accessibili usando get, set, is (usato per i booleani al posto di get) e altri
+			  metodi (così detti metodi accessori) seguendo una convenzione standard per i nomi;
+			- La classe dovrebbe essere serializzabile (capace di salvare e ripristinare il suo stato in modo persistente);
+			- Non dovrebbe contenere alcun metodo richiesto per la gestione degli eventi.
+		Inoltre nell'uso del JavaBean nelle pagine JSP, questi possono avere 4 tipi differenti di visibilità:
+			- PAGE: ha vita solo per il pageContext specifico;
+			- REQUEST: ha vita per tutta la durata della richiesta. Si può accedere al javaBean mediante il metodo 
+			  getAttribute() dell'oggetto ServletRequest;
+			- SESSION: ha vita per tutta la durata della sessione. Si può accedere al javaBean mediante il metodo 
+			  getAttribute() dell'oggetto HttpSession;
+			- APPLICATION: ha vita per tutta la durata dell'applicazione. Si può accedere al javaBean mediante il metodo 
+			  getAttribute() dell'oggetto ServletContext;
