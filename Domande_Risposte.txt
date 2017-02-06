@@ -1,0 +1,327 @@
+SQL: 
+DOMANDA: Cos'è un indice?
+RISPOSTA: Oggetto utile per accedere in maniera diretta ai record contenuti all’interno di una o più colonne di una determinata tabella in maniera più performante. Oggetto che serve per creare una tabella detta degli indici, questa viene allocata in memoria (usa la memoria gpa) e serve per mantenere i valori di indicizzazione (valori hash o memorizzati ad albero nel binary tree) per accedere in maniera diretta ai record contenuti in una o più colonne di una determinata tabella fisica del database.
+
+DOMANDA: DATABASE OLTP e OLAP?
+RISPOSTA: 
+- OLTP: vengono interrogati e usati anche per la manutenzione (quindi per la modifica dei dati contenuti).
+- OLAP: vengono solo interrogati (detti anche data warehouse). Se il database è in sola lettura, posso indicizzare in maniera massiva i dati, perché i database oltp comportano una scrittura ogniqualvolta viene fatta una modifica sui dati della tabella degli indici. Se i dati vengono modificati parecchio sul db, troppi campi indicizzati porterebbo a un rallentamento eccessivo del database (dovrebbero essere intorno all’1/10).
+
+DOMANDA: Quali campi sono candidati per l'indicizzazione?
+RISPOSTA: Le chiavi primarie sono indicizzate automaticamente. Lo sono i campi utili come filtraggio (nella clausola where) per la restituzione dei dati.
+
+DOMANDA: Cos'è un DBMS e un RDBMS? 
+RISPOSTA: Entrambi sono database che possono impostare le relazioni tra le tabelle per unirle, ma l'RDBMS è un DBMS che è conforme alle 12 regole di Codd.
+
+DOMANDA: Qualcuna delle 12 regole?
+RISPOSTA: Meccanismo della gestione dell'integrità referenziale, meccanismo per gestire i livelli di isolamento, meccanismo per il rollback per annullare la transazione, cardinalità dei rapporti, dizionario dati, meccanismo di gestione per le viste, meccanismo delle gestioni delle routine memorizzate.
+APPROFONDIMENTO WIKI:
+Regola 0: il sistema deve potersi definire come relazionale, base di dati e sistema di gestione.
+Affinché un sistema possa definirsi sistema relazionale per la gestione di basi di dati (RDBMS), tale sistema deve usare le proprie funzionalità relazionali (e solo quelle) per gestire la base di dati.
+Regola 1: l'informazione deve essere rappresentata sotto forma di tabelle.
+Le informazioni nel database devono essere rappresentate in maniera univoca, e precisamente attraverso valori in colonne che costituiscano, nel loro insieme, righe di tabelle.
+
+Regola 2: La regola dell'accesso garantito o delle chiavi primarie.
+Tutti i dati devono essere accessibili senza ambiguità. Ogni singolo valore scalare nel database dev'essere logicamente indirizzabile specificando il nome della tabella che lo contiene, il nome della colonna in cui si trova e il valore della chiave primaria della riga in cui si trova.
+Regola 3: trattamento sistematico del valore NULL.
+Il DBMS deve consentire all'utente di lasciare un campo vuoto, o con valore NULL. In particolare, deve gestire la rappresentazione di informazioni mancanti e quello di informazioni inadatte in maniera predeterminata, distinta da ogni valore consentito (per esempio, "diverso da zero o qualunque altro numero" per valori numerici), e indipendente dal tipo di dato. Queste rappresentazioni devono inoltre essere gestite dal DBMS sempre nello stesso modo.
+Regola 4: dizionario del modello relazionale.
+La descrizione della struttura del database e degli oggetti che lo compongono deve avvenire ad un livello logico, tramite un dizionario di metadati, e questo dizionario deve essere accessibile agli utenti del Database con le stesse modalità e lo stesso linguaggio di interrogazione utilizzato per accedere ai dati.
+Regola 5: accessibilità dei dati.
+Tutti i contenuti del database devono essere accessibili attraverso almeno un linguaggio relazionale (come ad esempio l'SQL) che abbia le seguenti caratteristiche:
+1. abbia una sintassi lineare (ovvero le cui istruzioni possono essere semanticamente interpretate con una semplice lettura da sinistra verso destra)
+2. possa essere utilizzato sia in forma interattiva che dall'interno di applicazioni
+3. supporti operazioni di definizione e di manipolazione dei dati, le regole di sicurezza e i vincoli di integrità del database.
+Regola 6: aggiornamento delle viste di dati.
+In un database relazionale si possono creare viste che forniscono l'accesso a specifici subset di informazioni. Laddove il contenuto in termini di dati di queste viste è concettualmente modificabile, lo deve anche essere nella pratica.
+Regola 7: manipolazione dei dati ad alto livello.
+Da un database possiamo reperire informazioni multiple costituite da set di dati provenienti da più righe e/o più tabelle. Gli stessi set di dati, piuttosto che le singole informazioni, devono anche poter essere inseriti, aggiornati e cancellati.
+Regola 8: indipendenza dalla rappresentazione fisica.
+La struttura logica di un database deve essere indipendente dalle strutture di memorizzazione fisica: modifiche al piano fisico (come i dati vengono memorizzati, su quali unità, con quale organizzazione, ecc.) non devono richiedere un cambiamento alle modalità di accesso al database.
+Regola 9: indipendenza dalla rappresentazione logica.
+Le modifiche al livello logico (tabelle, colonne, righe, chiavi primarie, ...) non devono richiedere cambiamenti non giustificati alle applicazioni che utilizzano il database.
+
+Regola 10: i vincoli logici sui dati devono essere memorizzati nel Database.
+I vincoli di integrità propri delle entità e delle relazioni, le regole di sicurezza e le restrizioni di accesso devono essere definiti nel dizionario del database e sono quindi separati dalle applicazioni che lo utilizzano. Deve quindi essere possibile modificare tali vincoli senza inutilmente interessare le applicazioni esistenti.
+Regola 11: indipendenza di localizzazione.
+La distribuzione di porzioni del database su una o più allocazione fisiche o geografiche deve essere invisibile agli utenti del sistema. Le applicazioni esistenti devono continuare ad operare con successo quando i dati esistenti vengono ridistribuiti in modo diverso.
+Regola 12: regola di non sovversione:
+Gli strumenti di accesso ai dati non devono poter annullare le restrizioni del database, per esempio aggirando i vincoli di integrità, le relazioni o le regole di sicurezza.
+
+DOMANDA: Differenza tra i comandi SQL e caratteristica di base
+RISPOSTA: DML (insert, delete, update e lock. Non committano, necessitano la chiusura della transazione), DDL (create, drop, alter. Autocommittanti), DCL(controllo dei permessi: grant e revoke), TCL (commit, rollback, savepoint, setransaction(per cambiare il livello di isolamento)).
+
+DOMANDA: Livello di isolamento?
+RISPOSTA: modalità con la quale la transazione corrente vede le altre transazioni concorrenti.
+- Predefinito: Read Committed, la transazione corrente vede i dati solo se committati dalle transazioni concorrenti.
+- Read Uncommitted: in Oracle non esiste, legge i dati anche se non committati. 
+- Read Only: isola in sola lettura la transazione. Se gli altri client committano, le modifiche non vengono viste finchè non esco dalla modalità readonly. Utile per fare analisi statistica dei dati.
+- Serializable: come readOnly ma permette di fare delle modifiche sui dati non ancora toccati dalle transazioni concorrenti mentre sono in modalità serializzata.
+
+DOMANDA: Chiave primaria
+RISPOSTA: vincolo che si imposta su un campo, serve per indicizzare i record all'interno del campo e serve per identificare in maniera univoca i record di una tabella. Unica e not null. Fondamentale quando si definisce un legame con un'altra tabella.
+
+DOMANDA: Cardinalità delle relazioni
+RISPOSTA: 
+- Uno a molti: creando una foreign key di collegamento con la chiave primaria. 
+- Molti a molti: creando una tabella ausilaria, definendo due relazioni uno a molti. 
+- Uno a uno: unendo le chiavi primarie delle due tabelle. 
+
+DOMANDA: Foreign Key, con quale logica si mette?
+RISPOSTA: Se il tipo di relazione è uno a molti, si prende la chiave primaria della tabella dell’uno e si ripete nella tabella dei molti.
+
+DOMANDA: Tipi di Join
+RISPOSTA: 
+- EquiJoin/InnerJoin/Join: per selezionare solo i dati correlati all'interno della selezione, se ci sono dati non correlati l'equijoin non li visualizza.
+- Left/Right Outer Join: se la tabella a sinistra ha la primaria e quella a destra la foreign è left, altrimenti è right. 
+- NaturalJoin: se i campi hanno lo stesso nome mette insieme le tabelle in base ai campi in comune.
+- SelfJoin: per creare un riferimento all'interno della stessa tabella. Utile quando c'è un rapporto di gerarchia all'interno dei campi della stessa tabella.
+- CrossJoin: prodotto cartesiano delle tabelle.
+
+DOMANDA: Terza fase di normalizzazione del DB
+RISPOSTA: Se voglio creare più entità devo fare attenzione che i campi che vado a staccare dall’entità principale non siano strettamente associati alla chiave della tabella in cui si trovano. Se analizzando i campi a uno a uno di una tabella verifico che tutti i campi sono strettamente associati alla chiave, non si applica la terza fase normale. Se ci fosse un campo in particolare che serve per identificare in maniera univoca un set di record duplicati, allora si può applicare. Devo trovare qualcosa che permette di caratterizza gli elementi duplicati. Se c’è questo qualcosa posso, altrimenti no.
+
+DOMANDA: Saper fare le query SQL è importante.
+
+DOMANDA: Differenza tra procedura e funzione?
+RISPOSTA: entrambe routine memorizzate, le funzioni possono essere richiamate o con un’istruzione SQL o all'interno di altre procedure o funzioni. Le procedure dev’essere richiamata dallo sviluppatore e si richiamano con il call (esternamente) o execute (internamente). Le funzioni ritornano per forza, le procedure non è detto.
+
+DOMANDA: Procedura non può ritornare?
+RISPOSTA: Sì può, ma può anche non tornare nulla. 
+
+
+
+
+
+DOMANDA: Parametri della procedura sono passati per copia o per riferimento?
+RISPOSTA: In Java copia. In plsql per riferimento (ma si può cambiare con in/out/inout). Nelle procedure dipende, di default per copia (anche inout e out passano per copia). Dipende se devo modificare il parametro o no.
+-L’out permette di modificare il parametro e agisce come variabile non inizializzata.
+-L’inout permette di modificare il parametro e agisce come variabile inizializzata ed è il più pesante, per questo è l’ultima scelta. 
+
+DOMANDA: Un cursore cos'è?
+RISPOSTA: Un puntatore alla memoria che memorizza i dati selezionati da una select multirisultato. Se è monorisultato bisogna utilizzare l’istruzione select into che definisce un cursore implicito. 
+
+DOMANDA: differenza cursore esplicito e implicito
+RISPOSTA: Se ho una select e sono sicuro al 100% che mi restituisce una sola riga di risultato uso l’implicito (select campo, campo2 into var, var2). Se ho una select che seleziona più righe devo fare per forza cursor nomecursore is select x from y where z.
+
+DOMANDA: cursore di default che caratteristiche ha?
+RISPOSTA: read-only, posizionato sempre prima della prima riga dei dati (un po’ come il ResultSet).
+
+DOMANDA: per cambiare il default?
+RISPOSTA: In modo da effettuare le modifiche con il cursore stesso, si aggiunge “for update” alla fine della definizione del cursore. Fondamentale quando si utilizza la riga attuale del cursore come clausola di aggiornamento per i dati.
+
+DOMANDA: attributi del cursore?
+RISPOSTA: si definiscono con % dopo il nome del cursore
+- conteggio dei record: il count.
+- foundnotfound: serve per lo scorrimento del cursore quando si esegue l’istruzione di fetch per caricare riga per riga i dati tramite lo scorrimento del cursore tramite il loop.
+- isopen: per controllare se il cursore è aperto o no
+- open: per aprirlo
+- close: per chiuderlo.
+
+DOMANDA: Quanti tipi di trigger esistono e qual è la differenza.
+RISPOSTA: Routine memorizzata che si attiva con un evento specifico: di sistema (il login, logout, startup, shutdown, DDL, DCL, errori sul server) o DML (insert, update, delete). Quindi 2 tipi.
+
+DOMANDA: Cos'è l'integrità referenziale?
+RISPOSTA: Controllo software che c'è sul parser (strumento che analizza l'istruzione sql), verifica che i dati vengano inseriti in modo coerente in base alle constraint definite o predefinite.
+
+DOMANDA: Constraint (vincoli di integrità) che impostiamo noi(esplicitamente)?
+RISPOSTA: 
+- PRIMARY KEY
+- FOREIGN KEY
+- NOT NULL
+- UNIQUE
+- CHECK, 
+- DEFAULT(più o meno)
+
+DOMANDA: Cos'è la vista (VIEW)?
+RISPOSTA: Selezione dinamica che va a selezionare i dati da una o più tabelle del DB (semplifica le query più utili, per fare query su query).
+
+JAVA
+
+DOMANDA: Cos'è una classe?
+RISPOSTA: Struttura che contiene un insieme di comportamenti (metodi) e attributi (proprietà) che devono per forza condividere un insieme di oggetti che derivano da tale struttura.
+
+DOMANDA: Promozione automatica dei valori
+RISPOSTA: caratteristica che riguarda solo gli interi e i valori a virgola mobile. Se non viene definito un intero in maniera esplicita come variabile, viene promosso al tipo int (byte->short->int->long). Stessa cosa con un valore a virgola mobile che viene promosso a double.
+
+DOMANDA: conversioni fattibili in maniera diretta (senza casting)
+RISPOSTA: tutte quelle da un tipo più piccolo a uno più grande. Caso particolare senza perdita di precisione: char->int. 
+
+DOMANDA: punto codice
+RISPOSTA: rappresentazione del carattere secondo lo standard di codifica unicode a 16 bit.  
+
+
+DOMANDA: Classi Wrapper
+RISPOSTA: classi involucro per rendere “oggetti” le classi primitive, per fornire metodi ai dati primitivi che non ne avrebbero. 
+
+DOMANDA: incapsulamento
+RISPOSTA: serve per proteggere gli attributi della classe rendendoli privati, fornendo setter e getter, con questa tecnica si evita che da un altro componente si possa modificare in maniera diretta il loro valore. Determina regole di accesso ai campi di istanza da altri livelli (tipo presentation layer)
+
+DOMANDA: differenza tra classe astratta e interfaccia
+RISPOSTA: L'interfaccia è una struttura che determina un insieme di comportamenti obbligatori. La classe astratta è una classe che non può essere istanziata, perchè nel processo di generalizzazione se continuo a togliere, continuando a togliere ottengo un elemento che da solo non uso nel codice. Per evitare di utilizzarla per sbaglio, con l'abstract definisco un componente che da solo non mi serve ma che può essere utile a definire comportamenti di altri componenti (e comunque ha il costruttore). La classe astratta può avere metodi astratti (una classe che ha anche solo un metodo astratto è per forza astratta ma non viceversa). L'interfaccia contiene solo attributi statici e final (costanti) e pubblici, i metodi tutti astratti.
+
+DOMANDA: quando scelgo una e quando l'altra in un progetto
+RISPOSTA: se voglio sfruttare il concetto di ereditarietà, andando ad estendere caratteristiche del componente principale (la classe astratta) tipo gli elementi del costruttore o alcuni metodi già presenti all’interno, uso la classe astratta. Se invece l'ereditarietà non serve e mi servono solo dei componenti si usano le interfacce.
+
+DOMANDA: gerarchia delle collezioni
+RISPOSTA: Map (a parte) e Iterable->Collection->Queue/Set/List
+
+DOMANDA: Implementazioni di list (studio bene)
+RISPOSTA: ArrayList, Vector (thread Safe), LinkedList (trattabile come doppia coda)
+
+DOMANDA: differenza tra LinkedList e ArrayList.
+RISPOSTA: la LinkedList si può trattare come doppia coda infatti implementa l’interfaccia Queue della coda.
+
+
+
+DOMANDA: Implementazione di Set
+RISPOSTA: 
+- LinkedHashSet: mantiene l'ordine di inserimento in fase di stampa.
+- EnumSet
+- HashSet: quando stampo i valori non li stampa nell'ordine di inserimento, anche se nella struttura li mantiene in quell'ordine.
+- TreeSet
+
+DOMANDA: Passare una lista nel set, qual è il vantaggio?
+RISPOSTA: Per eliminare i valori duplicati.
+
+DOMANDA: Passare un set in una lista?
+RISPOSTA: Per un ordinamento perché non si può fare il sort in un set, una volta inseriti i dati nella struttura. Per fare elaborazioni complesse.
+
+DOMANDA: Implementazioni di Queue
+RISPOSTA: E' un'interfaccia. Posso usare la LinkedList come Coda o la priorityQueue che a differenza dell’altra non mantiene l'ordine di inserimento (perché si appoggia sul valore di hashing).
+
+DOMANDA: Per la pila c'è stack che deriva da?
+RISPOSTA: Vector
+
+DOMANDA: Implementazioni di Map
+RISPOSTA: HashMap, HashTable (thread safe), LinkedHashMap, TreeMap
+
+DOMANDA: caratteristiche delle mappe
+RISPOSTA: Hanno la chiave e il valore associato alla chiave. Il tipo di mapping è uno a uno. Ci saranno due parametri di tipo: valore e chiave.
+
+DOMANDA: Per scorrere una map?
+RISPOSTA: Enumerazione, o  tirando fuori il set delle chiavi con keyset e poi lo scorro con un iteratore.
+
+
+
+
+DOMANDA: JDBC?
+RISPOSTA: Java DataBase Connectivity. Non è un protocollo di comunicazione, non è una libreria di classe e non è un framework. Strato di astrazione software. C’è una regola: quando si seguono determinati step, per poter fare un qualcosa, e questo qualcosa è determinato da alcune regole, si definisce uno strato di astrazione software. In realtà il JDBC si implementa in due step: 
+- caricamento del driver (deve fornire le specifiche di connessione col database (il driver viene creato dal produttore del DB, perché deve essere conforme alle specifiche delle classi presenti all’interno del pacchetto Java.sql) le specifiche del driver diranno al driver manager come aprire la connessione tramite il metodo getConnection()).
+- implementazione delle classi e delle interfacce del pacchetto sql.
+
+DOMANDA: Quali sono le classi e le interfacce di base da usare per aprire una connessione JDBC?
+RISPOSTA: Connection, DriverManager, Caricamento del driver, aprire la connessione col getConnection del DriverManager, Statement (se deve selezionare dei dati deve restituire un ResultSet, se modifica in maniera diretta può bastare lo statement), chiusura connessione(opzionale). 
+
+DOMANDA: Cosa significa caricare un driver o una classe? 
+RISPOSTA: E’ ciò che si fa per caricare in memoria la struttura della classe, per poterne controllare il suo contenuto ed è anche la cosa che si fa di solito quando si applica la reflection e il pacchetto reflect di Java che serve per ispezionare il contenuto di ciò che c’è nella classe. Avevamo visto come leggere i metodi, gli attributi della classe...
+	
+DOMANDA: caratteristiche di un resultSet
+RISPOSTA: il cursore è posizionato davanti alla prima riga dei dati, può scorrere solo di una riga alla volta, solo in avanti ed è in sola lettura. Posso cambiare la tipologia e la concorrenza del resulSet.
+
+DOMANDA: cosa significa Result Set sensibile o insensibile?
+RISPOSTA: sensibile, la modifica che faccio viene ripercossa immediatamente sul resultSet restiuito. Se devo processare il resulSet n volte, se lo faccio sensibile, vedo le modifiche che man mano faccio sul resultSet. Insensibile è più leggero, ma devo processare il resultSet una volta sola. Tiro fuori i dati, li modifico… entrambi salvano i dati sul db. La differeneza è se devo elaborare i dati più volte (sensibile) o solo una volta (insensibile)
+
+DOMANDA: concorrenza del resultSet
+RISPOSTA: In aggiornamento o read-only. 
+
+ 
+
+DOMANDA: rowSet
+RISPOSTA: è un'interfaccia che ha diverse implementazioni:
+- JDBC: non si usa praticamente mai.
+- CachedRowset: lavora con un resultSet offline (da qui il nome), gestisce in automatico l'apertura e la chiusura della connessione, e gestisce alcuni oggetti in automatico come il ResultSet e lo Statement, si può lavorare sul RowSet come se fosse il ResultSet o lo Statement in maniera indifferente. Il rowSet quando la connection viene restituita sincronizzata mantiene la sincronizzazione dei thread e quindi evita che l’applicazione vada in stallo se più client eseguono operazioni sull’applicazione in contemporanea. 
+
+DOMANDA: tipi di statement
+RISPOSTA: tre tipi
+-statement
+-preparedstatement: permette di usare le query parametriche. Il vantaggio che portano è quello di poter compilare l’istruzione sql una volta sola (vantaggio per le prestazioni) e poi incapsulando i dati con i setter e i getter, dal punto di vista della sicurezza è la cosa migliore da scegliere. Esclusivamente quando ci sono i parametri variabili dove magari sono passati dal Presentation Layer)
+-collablestatement: per fare chiamate alle procedure scritte in plsql o alle routine in generale.
+
+DOMANDA: cosa si intende per applicazione basata sui tre layer?
+RISPOSTA: suddivide in base al funzionamento i componenti
+-Presentation Layer: passa i dati che vengono validati lato server da componenti business o lato client, dipende se si usano strumenti come javascript o angular.
+-business layer: manipola i dati
+-data layer: classi, db, connection pooling. Le classi in questo layer deve solo scrivere e leggere.
+
+DOMANDA: MVC PATTERN
+RISPOSTA: E’ un design pattern architetturale basato su tre componenti:
+-vista: passa i dati tramite componenti che gestiscono eventi tipo i bottoni, caselle di test, e altro. Diverso dal Presentation Layer. Un elemento di presentazione è tutto ciò che alla fine il client vede, potrebbe non interagire per forza con l’utente. La vista interagisce per forza, per ricevere dati o restituirli)	
+-controllore: intercettatore di eventi, in un’applicazione web è caratterizzato da un filtro.
+-modello: componente BC che gestisce i dati che arrivano tramite il controller.
+
+DOMANDA: Un filtro come è fatto? Come si crea?
+RISPOSTA: è necessario implementare l'interfaccia filter, molto simile a quella servlet, ha il suo ciclo di vita caratterizzato da 
+- init: crea il filtro
+- doFilter: simile a doPost della servlet. Viene richiamato ogni volta arrivano delle richieste, i suoi parametri sono: richiesta, risposta, filterChain(si occupa del dispatch dei dati in modo da reindirizzarli a un’altra risorsa che li gestirà nel vero senso della parola). Fa la stessa cosa del metodo doPost, l’unica differenza è che il doFilter prende i dati e li reindirizza da un’altra parte.
+- destroy: distrugge il filtro, come l’init chiamato una sola volta nel ciclo di vita
+
+DOMANDA: differenza tra forward(dispatch) e reindirizzamento(redirect)?
+RISPOSTA: il dispatch reindirizza i dati. Il redirect richiama la risorsa senza reindirizzare di nuovo i dati della richiesta.
+
+DOMANDA: cos'è una servlet, che differenza c'è con una JSP e la differenza con i metodi richiamati tramite Javascript?
+RISPOSTA: La servlet è un componente scritto in Java residente su un application server. Il suo scopo è quello di intercettare le richieste e rispondere a queste inviando una pagina HTML come risposta (può anche in altri formati come XML, testo normale). 
+Differenza con JSP è che la JSP si occupa più della presentazione dei dati mentre la servlet è un componente di business logic, ma alla fine sono la stessa cosa.
+
+DOMANDA: Cosa usano le JSP per facilitare la scrittura di codice?
+RISPOSTA: 
+- Oggetti impliciti che rappresentano gli oggetti che normalmente si usano di più nelle servlet. 
+- Le espressioni JSP per inviare immediatamente una risposta al client, stampando la risposta direttamente utilizzando in maniera implicita l’oggetto jsp writer che scrive la risposta.
+
+DOMANDA: Cosa sono le dichiarazioni in jsp?
+RISPOSTA: 
+
+DOMANDA: Cosa sono le direttive Jsp?
+RISPOSTA: istruzioni, messaggi inviati direttamente all'application server(apache), utili a impostare le caratteristiche della pagina o per fare l'include di risorse esterne.
+
+DOMANDA: differenza tra azione e direttiva?
+RISPOSTA: 
+- Azioni: iniziano con “jsp:”. Viene valutata ogni volta che arriva la richiesta. 
+- Direttiva: iniziano con “<%!” compilata in fase di traduzione e non più rivalutata nel ciclo di vita dell'applicazione. 
+Se utilizzo jsp:useBean, questo deve essere valutato ogni volta che viene richiesta la pagina.
+Se faccio un inclusione come direttiva, la risorsa viene inclusa quando viene richiamata la pagina la prima volta, poi rimane tale per tutto il ciclo di vita dell’applicazione.
+
+DOMANDA: differenza tra un blocco scriptlet e scripting
+RISPOSTA: 
+- scriptlet: il codice dinamico che viene compilato lato server (non per forza scritto in Java). 
+- scripting: codice dinamico (ormai si usa solo JavaScript) che viene compilato solo lato client, strettamente legato nell’interpretazione al programma che usiamo per navigare.
+
+DOMANDA: come validare lato form con Javascript o Angular
+RISPOSTA: 
+
+DOMANDA: html, css, bootstrap, quasi niente.
+
+DOMANDA: design pattern (una soluzione elegante per un problema ricorrente)
+RISPOSTA: 
+- singleton: 
+- factory:
+- prorotype: per fare copie di oggetti 
+- DAO:  
+- Business Delegate:
+
+DOMANDA: JavaBean
+RISPOSTA: componenti (classi scritte in) Java che contengono metodi accessori e montatori degli attributi. Gli attributi servono per mappare i dati di un database relazionale. Rappresentazione del dato del database relazionale. Oppure per dare una determinata visibilità a una certa classe (tipo nel caso del carrello, che non era una tabella del db, ma lo potevamo portare in giro per le pagine per estrarre i dati dalla sessione).
+
+DOMANDA: potevamo non usare il JavaBean con il carrello?
+RISPOSTA: lo creavamo come classe normale, gli davamo una visibilità sessione e ogni volta che serviva, con il setattribute salvavamo dentro i dati e li recuperavamo con il getattribute, accedendo ai dati di sessione. Scomodo.
+
+DOMANDA: fasi di sviluppo del progetto
+RISPOSTA: plan, analysis, design, build, test, deploy
+
+DOMANDA: in quella di build cosa c'è?
+RISPOSTA: la preparazione del component test, build dei componenti ed esecuzione del component test.
+
+DOMANDA: test che si fanno in genere?
+RISPOSTA: systemTest sui componenti a cascata, performance test (????) singoli test su componenti.
+
+DOMANDA: v-model, che cos'è come tipo di tecnica di testing?
+RISPOSTA: Modello caratterizzato dalla fase di contenimento: non mischiare le diverse attività finchè le singole attività non sono terminate, questo dà la possibilità di trovare un difetto nell’applicazione nella fase in cui ci si ritrova e bisogna cercare di risolverlo fintanto che si è all’interno di essa per evitare di tornare indietro per cercare eventuali errori (si risolvono problemi una fase alla volta in sequenza).
+
+DOMANDA PER COLLOQUIO: perchè applicando il v-model non è così importante che nel juit 3 non si testino i metodi che hanno gravi problemi di funzionamento e quelli non ancora implementati?
+RISPOSTA: Perchè secondo il v-model le classi vanno scritte prima di scrivere i test, se si applicano altri modelli di design i test vengono scritti prima delle classi.
+
+DOMANDA: Perchè gli errori non vanno testati? 
+RISPOSTA: Perché sugli errori si fa il debugging, non i test.
+
+DOMANDA PER COLLOQUIO: cos'è il testing? 
+RISPOSTA: Verificare che l'applicazione risponda ai requisiti business richiesti dal cliente.
