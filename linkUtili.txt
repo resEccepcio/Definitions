@@ -11,3 +11,4 @@ Pattern  architetturali -> http://www.informatica.aci.it/visualizza_file.php?id_
 Fiiltr servlet -> http://www.the-skulls.com/sego/tutorials/servlet_filtri.pdf
 Why use JPA -> https://www.sitepoint.com/5-reasons-to-use-jpa-hibernate/
 JPA or JDBC -> http://stackoverflow.com/questions/11881548/jpa-or-jdbc-how-are-they-different
+Business Delegate -> https://coderanch.com/t/525212/certification/Business-Delegate-pattern-code
