@@ -185,4 +185,20 @@ CURSORE:	E' un puntatore alla memoria nella quale si trovano i dati restituiti d
 		I cursori dispongono di diversi attributi (%FOUND, %NOTFOUND, %ISOPEN, %ROWCOUNT), i quali forniscono determinate 
 		informazioni (ad esempio, se la tabella fosse composta da 27 studenti, l'istruzione cur1%ROWCOUNT restituirebbe 27)
 		
-VIEW:	
+VIEW:	Le viste sono delle query memorizzate con un proprio nome che possono essere considerate simili a tabelle virtuali.
+	Utile per semplificare query più complesse.
+	
+CONSTRAINT:	Sono regole definite sulle tabelle, che devono essere rispettate nel momento in cui avviene un'operazione sul db.
+		Possiamo impostare i seguenti constraint:
+		- PRIMARY KEY
+		- FOREIGN KEY
+		- NOT NULL; il valore di un un campo non può essere nullo
+		- UNIQUE; il valore di un campo non può essere ripetuto più di una volta
+		- CHECK; assicura che il valore di un campo rispetti determinati criteri
+		- DEFAULT; stabilisce il valore di default di un campo, nel caso in cui non venga inserito
+
+INTEGRITA' REFERENZIALE:	vincolo secondo il quale il valore di un campo in una tabella, essendo chiave esterna, deve 
+				necessariamente referenziare (riferirsi) un valore ESISTENTE di un campo in un'altra tabella, campo
+				che sarà la chiave primaria dell'altra tabella
+				
+//MANCA SOLAMENTE LA NORMALIZZAZIONE
