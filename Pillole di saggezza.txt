@@ -69,3 +69,76 @@ JAVABEAN:	Sono utilizzate per incapsulare più oggetti in un oggetto singolo (il
 			  getAttribute() dell'oggetto HttpSession;
 			- APPLICATION: ha vita per tutta la durata dell'applicazione. Si può accedere al javaBean mediante il metodo 
 			  getAttribute() dell'oggetto ServletContext;
+
+INDICI (DATABASE):	Gli indici sono delle tabelle speciali associate alle tabelle dati e diventano utili nel momento in cui 				vengono eseguite delle query. Una query che recupera tutto il contenuto di una tabella, porta ad uno sforzo 				computazionale notevole, quindi una soluzione per contrastare questo fenomeno (ed abbattere gli sforzi richiesti
+			dalla nostra query), potrebbe essere quella di definire un indice, che porterà alla creazione di una tabella
+			degli indici, la quale verrà consultata nel momento in cui una query viene eseguita.
+			
+QUALI CAMPI INDICIZZARE:	Le chiavi primarie sono automaticamente indicizzate. Ad ogni modo, conviene indicizzare quei campi sui
+				quali avvengono i controlli (con la clausola WHERE), in modo da rendere più performante il loro 
+				recupero.
+				
+CHIAVE PRIMARIA:	Definisce in modo univoco una tupla (riga) all'interno della tabella. E' una campo che viene automaticamente
+			indicizzato, DEVE essere univoco (UNIQUE) e non nullo (NOT NULL) per non violare i vincoli di integrità.
+			
+DATABASE OLTP vs OLAP:	I database OLTP sono caratterizzati da una grande quantità di operazioni di modifica del DB (inserimenti, 
+			cancellazioni o modifiche), e questo richiede un elevato throughput, cioè operazioni di modifica supportate al 
+			secondo. Si pensi ad esempio a database costituiti da grandi mole di dati (database delle vendite, database
+			delle transazioni finanziare, ecc., i quali vengono aggiornati di continuo).
+			I database OLAP sono caratterizzati da dati storici, sui quali avvengono solamente operazioni di retrieve, con 
+			le quali vengono recuperati dati e vengono effettuati degli studi, per stabilire ad esempio report di business,
+			scoprire relazioni fra determinati fenomeni (l'introduzione di una determinata offerta ha portato ad un notevole
+			aumento di transazioni effettuate in una determinata area, ecc.), ed in generale, per effettuare task di data
+			mining.
+			
+DBMS vs RDBMS:		La differenza sta nel fatto che nei DBMS possiamo avere diverse forme di conservazione di dati (in modo 
+			gerarchico o navigazionale). Potremmo, ad esempio, avere i dati conservati sotto forma di grafo.
+			Nei DBMS i dati possono essere salvati sotto forma di file, potremmo non avere relazioni, non supportano i
+			database distribuiti, non viene osservata nessuna politica di sicurezza sui dati, e non c'è normalizzazione.
+			Nei RDBMS invece la conservazione dei dati avviene in forma tabellare, abbiamo relazioni fra le varie tabelle, 
+			supportano database distribuiti, viene applicata una politica di sicurezza sui dati (come ad esempio l'integrità
+			referenziale), c'è la normalizzazione, e troviamo i meccanismi di rollback.
+			Ad oggi, la maggior parte dei prodotti (mysql, oracle db, ecc.) supportano tutte le funzionalità dei RDBMS, e 
+			quindi sono a tutti gli effetti dei RDBMS.
+			
+TIPI DI ISTRUZIONI SQL:	DDL(Data Definition Language); istruzioni utilizzate per creare/modificare la struttura di tabelle all'interno 
+			del DB. (CREATE, ALTER, DROP)
+			DML(Data Manipulation Language); istruzioni utilizzate per inserire/modificare/eliminare righe all'interno di 
+			una tabella del DB. (SELECT, INSERT, UPDATE, DELETE)
+			DCL(Data Control Language); istruzioni utilizzate per controllare i livelli di accesso a db e tabelle (non li
+			abbiamo visti tutti; un esempio sono GRANT, REVOKE)
+			TCL(Transaction Control Language); istruzioni utilizzate per controllare un insieme di transazioni effettuate
+			sul db. (BEGIN TRANSACTION, COMMIT TRANSACTION, ROLLBACK TRANSACTION)
+			
+CARDINALITA' DELLE RELAZIONI:	Una relazione indica l'esistenza di un legame fra più tabelle. Esistono diversi tipi di relazione.
+				1..1: ad un record di una tabella corrisponde esattamente un solo record di un'altra tabella. Si pensi
+				ad esempio alla tabella dei laureati, con chiave primaria ID_MATRICOLA, ed alla tabella delle lauree,
+				con chiave primaria ID_MATRICOLA, ed i campi DATA_LAUREA e VOTO_LAUREA. Ad ogni record della tabella
+				dei laureati deve necessariamente corrispondere un record della tabella delle lauree.
+				1..N: ad un record di una tabella corrisponde uno o più record di un'altra tabella. Si pensi alla 
+				tabella degli studenti, con chiave primaria ID_MATRICOLA, e la tabella degli esami, contenente 
+				ID_MATRICOLA, ID_ESAME, DATA_ESAME, VOTO. Uno studente sostiene più esami, e quindi ad un record della 
+				tabella degli studenti corrisponderanno più record della tabella esami.
+				N..N: ad uno o più record di una tabella corrispondono uno o più record di un'altra tabella. Si ricorre
+				quindi ad una tabella ausiliaria per tenere traccia di questa relazione. Si pensi ad esempio alla 
+				tabella dei partecipanti, con un ID_PERSONA, una tabella dei corsi con ID_CORSO. Uno o più partecipanti
+				partecipano a più corsi (Java, Reti, Management, ecc.), e ad un corso partecipano più partecipanti.
+				Avremo quindi una tebella ausiliaria, chiamata ad esempio partecipazioni, all'interno della quale ci 
+				saranno l'ID_PERSONA del partecipante, l'ID_CORSO del corso a cui partecipa, ed altri campi aggiuntivi 
+				(ad esempio la data d'inizio, le assenze, ecc.). Nella tabella ausilaria avremo quindi una situazione
+				del genere:
+				ID_PERSONA	ID_CORSO	ASSENZE
+				1		JAVA		4
+				1		RETI		7
+				2		JAVA		1
+				3		MANAGEMENT	5
+				3		RETI		9
+				NotaBene: potremmo avere una partecipazione opzionale, e quindi casi in cui ci sono 0..1, 0..N ecc.
+				
+FOREIGN KEY:	Chiave esterna, cioè colonna presente in una tabella che tiene traccia della relazione con un'altra tabella nel db.
+		Riprendendo il caso precedente, nell'esempio 1..N:
+		ID_ESAME	ID_MATRICOLA	VOTO
+		ESAME_JAVA	1		27
+		In questo caso l'ID_MATRICOLA della tabella degli esami indica la relazione che ha con la tabella degli studenti, 
+		e quel campo si riferisce ad ID_MATRICOLA della tabella degli studenti.
+		
