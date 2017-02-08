@@ -150,3 +150,39 @@ TIPI DI JOIN:	Abbiamo fondamentalmente tre tipi di JOIN in SQL, in dettaglio:
 		a NULL i valori delle colonne di quelle righe che non hanno corrispondenza.
 		CROSS JOIN; effettua semplicemente un prodotto cartesiano fra le due tabelle.
 		
+STORED PROCEDURE:	Sono routine memorizzate che effettuano delle operazioni sul db, possono ricevere parametri in input, e possono
+			anche restituire un risultato. Sono particolarmente adatte per impedire l'accesso diretto alle tabelle da parte
+			degli utenti, avere del codice riutilizzabile, e forniscono anche performance migliori in quanto sono
+			pre-compilate e fanno uso di meccanismi di caching.
+			Le procedure eseguono dei comandi SQL che vengono visti come un'unica unità di lavoro, e possono essere chiamate 
+			esternamente (call) oppure internamente (execute).
+			
+FUNCTION:		Sono routine memorizzate, e presentano le stesse caratteristiche delle procedure.
+			Differenze rispetto alle procedure:
+				- devono NECESSARIAMENTE contenere una clausola (RETURNS) che indica il tipo di ritorno
+				- devono NECESSARIAMENTE ritornare un risultato, che può essere un singolo dato (scalare) oppure
+				  tabellare
+				- possono essere chiamate solamente all'interno di un comando SQL, oppure da altre procedure o funzioni
+	
+TRIGGER:	routin memorizzate, simili alle procedure, ma con una particolarità: sono innescate nel momento in cui si verificano
+		determinati eventi (eventi DML o eventi di sistema), ed eseuirà delle operazioni sul db come se fosse implicitamente in una 
+		transazione (permettendo così di fare un ROLLBACK se qualcosa dovesse andare storto)
+		
+PASSAGGIO PARAMETRI:	in PLSQL i parametri sono passati per riferimento, e con gli opportuni modificatori (IN, OUT, INOUT) possono 
+			anche essere modificati
+			
+CURSORE:	E' un puntatore alla memoria nella quale si trovano i dati restituiti da una SELECT. Possiamo avere due tipi di cursore:
+		- implicito; se sono sicuro di avere una sola riga come risultato, uso un cursore implicito, e memorizzo in alcune
+		  mie variabili i risultati. Ad esempio, per una tabella studenti con campi ID_MATRICOLA, NOME, COGNOME, posso avere
+		  il seguente cursore:	SELECT * FROM studenti INTO var_matricola, var_nome, var_cognome WHERE ID_MATRICOLA=1
+		- esplicito; qui devo necessariamente dichiarare il cursore con la seguente istruzione:
+		  DECLARE cur1 CURSOR IS SELECT * FROM studenti;
+		  Adesso ho un cursore, e devo aprirlo (OPEN cur1), in modo da allocare memoria e poter cominciare a scorrere per le 
+		  varie righe (FETCH cur1 INTO var_matricola_attuale, var_nome_attuale, var_cognome_attuale).
+		  Queste istruzioni, utilizzate ad esempio in un ciclo, permettono un'iterazione sulle righe della tabella studenti.
+		  Il cursore alla fine deve essere chiuso (CLOSE cur1), oppure verrà automaticamente chiuso al termine della procedura
+		  all'interno della quale viene utilizzato
+		I cursori dispongono di diversi attributi (%FOUND, %NOTFOUND, %ISOPEN, %ROWCOUNT), i quali forniscono determinate 
+		informazioni (ad esempio, se la tabella fosse composta da 27 studenti, l'istruzione cur1%ROWCOUNT restituirebbe 27)
+		
+VIEW:	
