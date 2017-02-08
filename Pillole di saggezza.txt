@@ -145,7 +145,8 @@ FOREIGN KEY:	Chiave esterna, cioè colonna presente in una tabella che tiene tra
 TIPI DI JOIN:	Abbiamo fondamentalmente tre tipi di JOIN in SQL, in dettaglio:
 		INNER JOIN; restituisce le righe delle tabelle coinvolte in cui esiste una corrispondenza fra le colonne all'interno
 		della clausola ON.
-		OUTER JOIN; può essere di tre tipi, LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN. Restituisce tutte le righe della		tabella sinistra (LEFT), destra (RIGHT) o di entrambe le tabelle (FULL), indipendentemente dalla clausola ON, settando
+		OUTER JOIN; può essere di tre tipi, LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN. Restituisce tutte le righe della
+		tabella sinistra (LEFT), destra (RIGHT) o di entrambe le tabelle (FULL), indipendentemente dalla clausola ON, settando
 		a NULL i valori delle colonne di quelle righe che non hanno corrispondenza.
 		CROSS JOIN; effettua semplicemente un prodotto cartesiano fra le due tabelle.
 		
