@@ -13,3 +13,4 @@ Why use JPA -> https://www.sitepoint.com/5-reasons-to-use-jpa-hibernate/
 JPA or JDBC -> http://stackoverflow.com/questions/11881548/jpa-or-jdbc-how-are-they-different
 Business Delegate -> https://coderanch.com/t/525212/certification/Business-Delegate-pattern-code
 PL/SQL -> http://www.xenialab.it/meo/web/white/oracle/plsql.htm
+J2EE -> http://www.html.it/articoli/uno-sguardo-dinsieme-su-j2ee-4/
